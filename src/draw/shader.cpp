@@ -368,11 +368,45 @@ bool isInCapture(Shader shader) {
 }
 
 GLuint loadShaderFile(char* filename, GLuint type) {
-  char error[256];
+  if (filename == NULL) {
+    SPDLOG_WARN("Attempted to load null shader file");
+
+    return 0;
+  }
+
   char* modFilename = strdup_s(lookupFile(filename, 0).c_str());
+
+  if (modFilename == NULL) {
+    SPDLOG_WARN("Unable to lookup shader file {} from the mods directory",
+      modFilename);
+
+    return 0;
+  }
+
   char* modShaders = sprintf_o("%sshaders", modDirectory());
+
+  if (modShaders == NULL) {
+    SPDLOG_WARN("Unable to find shaders directory in the mods directory");
+
+    free(modFilename);
+
+    return 0;
+  }
+
   // load from the mods directory
+  char error[256];
   char* shaderCode0 = stb_include_file(modFilename, "", modShaders, error);
+
+  if (shaderCode0 == NULL) {
+    SPDLOG_WARN("Unable to load shader file {} from the mods directory",
+        modFilename);
+
+    free(modFilename);
+    free(modShaders);
+
+    return 0;
+  }
+
   // load from the base directory
   char* shaderCode = stb_include_string(shaderCode0, "", "shaders",
       modFilename, error);
@@ -382,15 +416,23 @@ GLuint loadShaderFile(char* filename, GLuint type) {
         modFilename);
   }
 
-  if (shaderCode == 0) {
+  if (shaderCode == NULL) {
     SPDLOG_ERROR("Could not open {}. Wrong directory? Shader Error: {}",
         modFilename, error);
-    handleError("Bad shader (file)");
+    // handleError("Bad shader (file)");
+
+    free(modFilename);
+    free(modShaders);
+    free(shaderCode0);
+
+    return 0;
   }
 
+  /*
   #ifdef LP_DEBUG
     SPDLOG_INFO("Compiled code for {}:\n{}", modFilename, shaderCode);
   #endif
+  */
 
   // Compile Shader
   GLuint shaderID = glCreateShader(type);
