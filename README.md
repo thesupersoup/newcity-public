@@ -21,7 +21,13 @@ These instructions are rough and intended as guideposts. I haven't had the time 
 
 ### Linux (Ubuntu)
 
-- Install: cmake build-essential gdb libopenal-dev libopenal1 libglu1-mesa-dev (and your graphics card drivers) (probably some other stuff too)
+#### Install the following dependencies:
+- cmake build-essential gdb libopenal-dev libopenal1 libglu1-mesa-dev
+    - (and your graphics card drivers)
+    - (probably some other stuff too)
+- *On Linux Mint 22.3," or if you get `The RandR headers were not found` error from glfw, also install:
+    - xorg-dev
+
 - Using a terminal, do:
 
         cd src
