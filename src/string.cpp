@@ -51,8 +51,10 @@ void parseFont() {
   error = FT_New_Face(library, filenameStr.c_str(), 0, &face);
   if (error == FT_Err_Unknown_File_Format) {
     handleError("Unknown font file format %s", filenameStr.c_str());
+    return;
   } else if (error) {
     handleError("Error %d loading font %s", error, filenameStr.c_str());
+    return;
   }
 
   error = FT_Set_Pixel_Sizes(face, 0, c(CTextResolution));
