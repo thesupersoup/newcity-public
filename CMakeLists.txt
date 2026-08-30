@@ -483,7 +483,7 @@ if(WIN32)
   # Include PDB for stacktraces
   add_custom_command(
     TARGET newcity POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/newcity.pdb" "${CMAKE_CURRENT_SOURCE_DIR}/src/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/newcity.pdb" "${CMAKE_CURRENT_SOURCE_DIR}/src/"
   )
 endif()
 
