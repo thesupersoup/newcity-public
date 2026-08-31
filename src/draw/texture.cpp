@@ -100,7 +100,10 @@ const char* illuminationFilenames[] = {
   "textures/stoplights/stoplight_illumination11.png"
 };
 
+// This array should be equal in length to the value of numTextures-1
+// in the texture.hpp enum
 const char* flagsFilenames[] = {
+  "textures/null_flags.png",
   "textures/null_flags.png",
   "textures/null_flags.png",
   "textures/null_flags.png",

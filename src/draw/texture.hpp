@@ -38,6 +38,9 @@ enum {
   stopLight9,
   stopLight10,
   stopLight11,
+
+  // numTextures-1 should be equal to the length of the flagsFilenames array
+  // in texture.cpp
   numTextures
 };
 
