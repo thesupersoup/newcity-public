@@ -323,7 +323,7 @@ void addCityBuilding(item cityNdx, bool update) {
   vec3 loc = city->visualCenter + offset;
 
   item buildingNdx =
-    addCityBuilding(cityNdx, loc, normal, zone, d, lv, update);
+    addCityBuilding(cityNdx, loc, normal, zone, d, lv, false);
   if (buildingNdx != 0) {
     city->buildings.push_back(buildingNdx);
   }
