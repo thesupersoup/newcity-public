@@ -1,0 +1,2 @@
+# Consistently apply LF only line endings to text files
+*.txt text eol=lf

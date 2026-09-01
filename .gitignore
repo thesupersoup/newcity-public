@@ -8,6 +8,9 @@ callgrind.*
 *.pdb
 *.bbprojectd
 
+# ignore local notes folder
+/notes
+
 /steamworks-sdk/output
 /output/
 /sdk/
@@ -54,5 +57,6 @@ callgrind.*
 /src/capture.png
 /src/.gdb_history
 /src/leak-check.out
+/src/.vs
 /NewCity.zip
 
