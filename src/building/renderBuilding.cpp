@@ -1177,6 +1177,11 @@ void renderBuilding(item ndx) {
     return;
   }
 
+  // Don't render buildings in neighboring cities
+  if ((building->flags & _buildingCity)) {
+    return;
+  }
+
   if (building->entity == 0) {
     building->entity = addEntity(BuildingShader);
     building->decoEntity = addEntity(DecoShader);

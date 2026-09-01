@@ -382,7 +382,6 @@ item addCityBuilding(item cityNdx, vec3 loc, vec3 normal, item zone,
   updateBuildingValue(ndx);
   repostTenancies(ndx);
   nameBuilding(ndx);
-  if (render) renderBuilding(ndx);
 
   return ndx;
 }
