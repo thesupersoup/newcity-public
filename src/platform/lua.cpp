@@ -70,6 +70,10 @@ void readLuaInMod(const char *filename, bool disableDefault) {
   vector<string> versions = lookupFileVersions(filename,
       disableDefault ? _lookupExcludeBase : 0);
 
+  if (versions.size() <= 0) {
+      return;
+  }
+
   for (int i = versions.size()-1; i >= 0; i--) {
     readLua(versions[i].c_str());
   }
