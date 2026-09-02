@@ -140,13 +140,10 @@ add_definitions(
   -D_CRT_SECURE_NO_WARNINGS
 )
 
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug)
-endif(NOT CMAKE_BUILD_TYPE)
-
-if(WIN32)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4716 /O2 /Zi /MP /Qpar")
-endif()
+# Not sure how these collide with the Release flags below, so commenting out
+# if(WIN32)
+#  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4716 /O2 /Zi /MP /Qpar")
+# endif()
 
 if(NOT WIN32)
   SET(CMAKE_CXX_FLAGS
@@ -161,18 +158,21 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSPDLOG_NO_EXCEPTIONS=ON")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_EXCEPTION_DISABLE")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_NO_EXCEPTIONS")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINCLUDE_STEAM")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -D_GLIBCXX_DEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DLP_DEBUG")
-#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ffast-math")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer")
 
-if (UNIX)
-  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -static")
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -D_GLIBCXX_DEBUG")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DLP_DEBUG")
+  #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ffast-math")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer")
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES Release)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fno-rtti -fno-exceptions")
+endif()
+
+if (UNIX)
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -static")
 endif()
 
 file(GLOB LUA_SOURCE external/lua-5.3.5/src/*.c)
@@ -422,26 +422,10 @@ endif()
 #create_target_launcher(newcity WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/")
 
 if(WIN32)
-  if(CMAKE_BUILD_TYPE MATCHES Release OR CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+  if(CMAKE_BUILD_TYPE MATCHES Debug OR CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
     set_target_properties(newcity PROPERTIES
       LINK_FLAGS "/SUBSYSTEM:windows /DEBUG /PDB:newcity.pdb /PDBSTRIPPED:newcity_stripped.pdb /PDBALTPATH:%_PDB% /STACK:8000000")
-  else()
-    set_target_properties(newcity PROPERTIES
-      LINK_FLAGS "/SUBSYSTEM:CONSOLE /DEBUG /PDB:newcity.pdb /PDBSTRIPPED:newcity_stripped.pdb /PDBALTPATH:%_PDB% /STACK:8000000")
   endif()
-
-  #set_target_properties(newcity PROPERTIES
-  #LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
-  #set_target_properties(newcity PROPERTIES
-  #COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
-  #set_target_properties(newcity PROPERTIES
-  #LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:windows")
-  #set_target_properties(newcity PROPERTIES
-  #COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
-  #set_target_properties(newcity PROPERTIES
-  #LINK_FLAGS_RELEASE "/SUBSYSTEM:windows")
-  #set_target_properties(newcity PROPERTIES
-  #LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:windows")
 endif()
 
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
