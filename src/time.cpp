@@ -405,9 +405,18 @@ LightInformation getLightInformation() {
 
   float x = 5 - 4*skyBright;
   float y = 49 + 8*clamp(goldAmount, 0., 1.);
-  result.color = vec3(
-      samplePixel(getPaletteImage(), x/paletteSize, y/paletteSize));
-  result.color += vec3(1,1,1)*float(lightning*.2f);
+  Image paletteImage = getPaletteImage();
+
+  // If it fails to load, we don't want to try to sample a pixel
+  if (paletteImage.x > 0 && paletteImage.y > 0) {
+      result.color = vec3(
+          samplePixel(getPaletteImage(), x / paletteSize, y / paletteSize));
+      result.color += vec3(1, 1, 1) * float(lightning * .2f);
+  }
+  else {
+      // Error color, purple or pink?
+      result.color = vec3(1, 0, 1);
+  }
 
   result.direction =
     dirFactor*dvec3(sin(timeTheta), cos(seasonTheta+pi_o)+latitude,
