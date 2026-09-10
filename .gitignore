@@ -39,7 +39,6 @@ callgrind.*
 /src/designs/crash-autosave.design
 /src/modpacks/yours/designs/autosave.design.png
 /src/modpacks/yours/designs/autosave/*
-/src/workshop/
 /src/saves/*.city
 /src/saves/*.test
 /src/saves/*.png

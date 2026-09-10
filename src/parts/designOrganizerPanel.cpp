@@ -61,15 +61,6 @@ Part* designOrganizerPanel() {
     r(result, button(vec2(dcpWidth-1, 0.f), iconX, closeFixBuilding, 0));
   }
 
-  #ifdef INCLUDE_STEAM
-    // Even if Steam's included, only show buttons if it has an active connection
-    if (steam_isActive() && getSelectedDesignNdx() != 0) {
-      Part* steamButt = button(vec2(dcpWidth-1-isFixBuildingMode(), 0.f), iconSteam, openDesignInWorkshop, getSelectedDesignNdx());
-      setPartTooltipValues(steamButt, TooltipType::DesignerOpenInWorkshop);
-      r(result, steamButt);
-    }
-  #endif
-
   float y = 1;
   vec2 dpSize = vec2(dcpWidth*.5f-2,dcpScale + 0.7);
   vec2 zbSize = vec2(dcpWidth*.5f,dcpScale);

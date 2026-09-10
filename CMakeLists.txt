@@ -271,7 +271,6 @@ SET(ALL_FILES
   src/parts/slider.cpp
   src/parts/span.cpp
   src/parts/statusBar.cpp
-  src/parts/steamWorkshop.cpp
   src/parts/textBox.cpp
   src/parts/textureSelect.cpp
   src/parts/toolbar.cpp

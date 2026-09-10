@@ -51,7 +51,6 @@ bool conCallbackSongEnable(std::string data);
 bool conCallbackSongInfo(std::string data);
 bool conCallbackSongPlay(std::string data);
 bool conCallbackSongShuffle(std::string data);
-bool conCallbackSteamInfo(std::string data);
 bool conCallbackTestFileWrite(std::string data);
 bool conCallbackTestFileRead(std::string data);
 bool conCallbackTheSnap(std::string data);

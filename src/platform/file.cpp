@@ -5,7 +5,6 @@
 
 #include "../error.hpp"
 #include "../string_proxy.hpp"
-#include "../steam/steamws_const.hpp"
 
 #include "spdlog/spdlog.h"
 #include <algorithm>
@@ -65,10 +64,6 @@ char* getModFilePathNonNull(const char* filename) {
   return sprintf_o("%s%s", modDirectoryNonNull(), filename);
 }
 
-char* getWorkshopFilePath(const char* filename) {
-  return sprintf_o("%s/%s", steamws_rootPath.c_str(), filename);
-}
-
 char* getFilenameInBase(const char* filename) {
   return fixFileCase(strdup_s(filename));
 }
@@ -85,24 +80,8 @@ char* getFilenameInMod(const char* filename, bool nonNull) {
   }
 }
 
-char* getFilenameInWorkshop(const char* filename) {
-  char* workshopFilename = getWorkshopFilePath(filename);
-  if(fileExists(workshopFilename)) {
-    return workshopFilename;
-  }
-  free(workshopFilename);
-  return getFilenameInBase(filename); // Failed to find workshop file, search base
-}
-
 char* getFilenameInAll(const char* filename, bool nonNull) {
-  // Test Steam Workshop first
-  char* workshopFilename = getWorkshopFilePath(filename);
-  if(fileExists(workshopFilename)) {
-    return workshopFilename;
-  }
-  free(workshopFilename); // Free when done
-
-  // Test Mods next
+  // Test Mods
   char* modFilename = getFilenameInMod(filename, false);
   if(fileExists(modFilename)) {
     return modFilename;
@@ -178,8 +157,7 @@ struct less_char_star : binary_function <char*,char*,bool> {
   }
 };
 
-vector<char*> readDirectoryMod(const char* dirName, const char* ext,
-    bool nonNull) {
+vector<char*> handleReadDirectoryAll(const char* dirName, const char* ext, bool nonNull) {
   vector<char*> mainFiles = readDirectory(dirName, ext);
   vector<char*> result;
 
@@ -202,16 +180,19 @@ vector<char*> readDirectoryMod(const char* dirName, const char* ext,
   return result;
 }
 
-vector<char*> readDirectoryMod(const char* dirName, const char* ext) {
-  return readDirectoryMod(dirName, ext, false);
+vector<char*> readDirectoryAllAllowNull(const char* dirName, const char* ext) {
+  return handleReadDirectoryAll(dirName, ext, false);
 }
 
-vector<char*> readDirectoryModNonNull(const char* dirName, const char* ext) {
-  return readDirectoryMod(dirName, ext, true);
+vector<char*> readDirectoryAllNonNull(const char* dirName, const char* ext) {
+  return handleReadDirectoryAll(dirName, ext, true);
 }
 
-vector<char*> readDirectoryModOnly(const char* dirName,
-    const char* ext, bool nonNull) {
+vector<char*> readDirectoryAll(const char* dirName, const char* ext, bool nonNull) {
+  return handleReadDirectoryAll(dirName, ext, nonNull);
+}
+
+vector<char*> handleReadDirectoryModOnly(const char* dirName, const char* ext, bool nonNull) {
   const char* mod = nonNull ? modDirectoryNonNull() : modDirectory();
   char* modDir = sprintf_o("%s%s", mod, dirName);
   #ifdef __linux__
@@ -223,71 +204,16 @@ vector<char*> readDirectoryModOnly(const char* dirName,
   return modFiles;
 }
 
-vector<char*> readDirectoryModOnlyNonNull(const char* dirName,
-    const char* ext) {
-  return readDirectoryModOnly(dirName, ext, true);
+vector<char*> readDirectoryModOnlyAllowNull(const char* dirName, const char* ext) {
+  return handleReadDirectoryModOnly(dirName, ext, false);
 }
 
-vector<char*> readDirectoryModOnly(const char* dirName,
-    const char* ext) {
-  return readDirectoryModOnly(dirName, ext, false);
+vector<char*> readDirectoryModOnlyNonNull(const char* dirName, const char* ext) {
+  return handleReadDirectoryModOnly(dirName, ext, true);
 }
 
-vector<char*> readDirectoryWorkshopOnly(const char* dirName, const char* ext) {
-  std::string relativeDir = steamws_rootPath + "/" + dirName;
-  if(!fileExists(relativeDir.c_str())) return vector<char*>();
-
-  vector<char*> workshopFiles = readDirectory(relativeDir.c_str(), ext);
-
-  return workshopFiles;
-}
-
-vector<char*> readDirectoryModAndWorkshopOnly(const char* dirName, const char* ext, bool nonNull) {
-  vector<char*> modFiles = readDirectoryModOnly(dirName, ext, nonNull);
-  vector<char*> workshopFiles = readDirectoryWorkshopOnly(dirName, ext);
-  vector<char*> combinedFiles;
-
-  if(workshopFiles.size() > 0) {
-    set<char*, less_char_star> dedupe(workshopFiles.begin(), workshopFiles.end());
-    dedupe.insert(modFiles.begin(), modFiles.end());
-    combinedFiles = vector<char*>(dedupe.begin(), dedupe.end());
-  } else {
-    combinedFiles = modFiles;
-  }
-
-  return combinedFiles;
-}
-
-vector<char*> readDirectoryModAndWorkshopOnly(const char* dirName, const char* ext) {
-  return readDirectoryModAndWorkshopOnly(dirName, ext, false);
-}
-
-vector<char*> readDirectoryModAndWorkshopOnlyNonNull(const char* dirName, const char* ext) {
-  return readDirectoryModAndWorkshopOnly(dirName, ext, true);
-}
-
-vector<char*> readDirectoryAll(const char* dirName, const char* ext, bool nonNull) {
-  vector<char*> baseAndModFiles = readDirectoryMod(dirName, ext, nonNull);
-  vector<char*> workshopFiles = readDirectoryWorkshopOnly(dirName, ext);
-  vector<char*> combinedFiles;
-
-  if(workshopFiles.size() > 0) {
-    set<char*, less_char_star> dedupe(workshopFiles.begin(), workshopFiles.end());
-    dedupe.insert(baseAndModFiles.begin(), baseAndModFiles.end());
-    combinedFiles = vector<char*>(dedupe.begin(), dedupe.end());
-  } else {
-    combinedFiles = baseAndModFiles;
-  }
-
-  return combinedFiles;
-}
-
-vector<char*> readDirectoryAll(const char* filename, const char* ext) {
-  return readDirectoryAll(filename, ext, false);
-}
-
-vector<char*> readDirectoryAllNonNull(const char* filename, const char* ext) {
-  return readDirectoryAll(filename, ext, true);
+vector<char*> readDirectoryModOnly(const char* dirName, const char* ext, bool nonNull) {
+  return handleReadDirectoryModOnly(dirName, ext, nonNull);
 }
 
 /*

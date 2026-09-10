@@ -27,7 +27,6 @@
 #include "../route/location.hpp"
 #include "../selection.hpp"
 #include "../sound.hpp"
-#include "../steam/steamwrapper.hpp"
 #include "../string.hpp"
 #include "../tools/building.hpp"
 #include "../tutorial.hpp"
@@ -820,15 +819,6 @@ bool conCallbackSongPlay(std::string data) {
 
 bool conCallbackSongShuffle(std::string data) {
   tryPlayRandomSong(true);
-  return true;
-}
-
-bool conCallbackSteamInfo(std::string data) {
-  #ifdef INCLUDE_STEAM
-    consolePrintLine(steam_getSteamInfo());
-  #else
-    consolePrintLine("Steam not included");
-  #endif
   return true;
 }
 

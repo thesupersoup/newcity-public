@@ -565,20 +565,6 @@ void resetDesigns() {
 void readDesignDirectory(
     void (*callback)(FileBuffer* file, int version, const char* name)
 ) {
-
-  /*
-  vector<char*> files;
-  if (c(CDisableDefaultBuildingSet)) {
-    files = readDirectoryModAndWorkshopOnly(designDirectory(), designExtension());
-    free(dir);
-  } else {
-    files = readDirectoryAll(designDirectory(), designExtension());
-  }
-
-  for (int i = 0; i < files.size(); i++) {
-    char* name = files[i];
-    */
-
   uint32_t lookupFlags = 0;
   if (c(CDisableDefaultBuildingSet)) lookupFlags |= _lookupExcludeBase;
   vector<string> files = lookupDesigns(lookupFlags);

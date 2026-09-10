@@ -30,8 +30,6 @@
 
 #include "spdlog/spdlog.h"
 
-//#include "../steam/steamwrapper.hpp"
-
 #include <algorithm>
 
 InputCallback afterSaveConfirm = NULL;
@@ -79,11 +77,6 @@ bool openOptionsMenu(Part* part, InputEvent event) {
 
 bool openAboutPage(Part* part, InputEvent event) {
   setMenuMode(AboutPage);
-  return true;
-}
-
-bool openSteamWorkshop(Part* part, InputEvent event) {
-  setMenuMode(MenuMode::SteamWorkshop);
   return true;
 }
 
@@ -312,11 +305,6 @@ bool crashImmediately(Part* part, InputEvent event) {
   handleError("You didn't say the magic word.");
   return true;
 }
-
-//bool openSteamOverlay(Part* part, InputEvent event) {
-  //steam_openOverlay("steamid");
-  //return true;
-//}
 
 Part* mainMenu(float aspectRatio) {
   float uiX = uiGridSizeX * aspectRatio;

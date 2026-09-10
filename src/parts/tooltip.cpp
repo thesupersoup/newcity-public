@@ -426,8 +426,6 @@ const char* getTooltipText(int type) {
       return "Set game-specific values for the design";
     case TooltipType::EditInDesigner:
       return "Edit in Building Designer [This will autosave your game.]";
-    case TooltipType::DesignerOpenInWorkshop:
-      return "Share this Design with the Steam Workshop";
     case TooltipType::DesignerFixBuilding:
       return "Edit the Stats for this Building Design";
 

@@ -17,7 +17,6 @@
 #include "../platform/file.hpp"
 #include "../renderLand.hpp"
 #include "../selection.hpp"
-#include "../steam/steamws_core.hpp"
 #include "../string_proxy.hpp"
 #include "../string.hpp"
 #include "../zone.hpp"
@@ -28,7 +27,6 @@
 #include "label.hpp"
 #include "panel.hpp"
 #include "slider.hpp"
-#include "steamWorkshop.hpp"
 #include "span.hpp"
 #include "textBox.hpp"
 #include "textureSelect.hpp"
@@ -726,15 +724,6 @@ Part* designConfigPanel() {
 
   r(result, labelCenter(vec2(0,0), vec2(dcpWidth,1),
         strdup_s("Building Designer")));
-
-  #ifdef INCLUDE_STEAM
-    // Even if Steam's included, only show buttons if it has an active connection
-    if (steam_isActive()) {
-      Part* steamButt = button(vec2(dcpWidth-1, 0.f), iconSteam, openDesignInWorkshop, getSelectedDesignNdx());
-      setPartTooltipValues(steamButt, TooltipType::DesignerOpenInWorkshop);
-      r(result, steamButt);
-    }
-  #endif
 
   float y = 1;
 
