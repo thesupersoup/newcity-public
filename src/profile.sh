@@ -2,7 +2,7 @@
 
 #mkdir -p ../build
 #cd ../build && make -j 24 newcities && cd ../src && \
-export LD_PRELOAD="./libsteam_api.so ./libOpenGL.so.0"; \
+export LD_PRELOAD="./libOpenGL.so.0"; \
   valgrind --tool=callgrind -v --instr-atstart=no \
   --cache-sim=yes --branch-sim=yes --collect-bus=yes --dump-instr=yes \
   --separate-threads=yes \

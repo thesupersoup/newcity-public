@@ -107,11 +107,7 @@ cp src/newcity-linux.sh NewCity/newcity-linux.sh
 chmod +x NewCity/newcity-linux.sh
 cp src/binary_map NewCity/binary_map
 cp src/eula.txt NewCity/eula.txt
-cp lib/steam_api.dll NewCity/steam_api.dll
-cp lib/steam_api64.dll NewCity/steam_api64.dll
-cp lib/steam_api.lib NewCity/steam_api.lib
 cp lib/OpenAL32.dll NewCity/OpenAL32.dll
-cp src/libsteam_api.so NewCity/libsteam_api.so
 cp src/libOpenGL.so.0 NewCity/libOpenGL.so.0
 cp src/newcity.pdb NewCity/newcity.pdb
 cp src/official_blueprints.txt NewCity/official_blueprints.txt
@@ -126,19 +122,4 @@ cd NewCity
 zip -r ../NewCity.zip ./**
 cd ..
 #rm -rf NewCity
-
-echo ""
-echo "###############"
-echo "#### UPLOAD ###"
-echo "###############"
-echo ""
-
-while true; do
-    read -p "Do you wish to upload to Steam? " yn
-    case $yn in
-        [Yy]* ) . cd .. ; ./upload_to_steam.sh; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
 
