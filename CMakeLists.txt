@@ -56,37 +56,6 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${CMAKE_SOURCE_DIR}/lib ${Boost_LIBRARYDIR})
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
-# Import Steam based on the compiler toolchain
-# Commented out if statements to link both, going to handle with preproc in code
-# if (LP_IS_MINGW)
-  # Import Steam for Linux
-  add_library(steamapi_linux SHARED IMPORTED)
-  set_target_properties(steamapi_linux PROPERTIES
-  IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/external/steam/redistributable_bin/linux64/libsteam_api.so"
-  IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/external/steam/lib/linux64/libsteam_api.so"
-  INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/external/steam/include")
-# elseif (WIN32)
-  # Import Steam for Win64
-  add_library(steamapi SHARED IMPORTED)
-  set_target_properties(steamapi PROPERTIES
-  IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/external/steam/redistributable_bin/win64/steam_api64.dll"
-  IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/external/steam/lib/win64/steam_api64.lib"
-  INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/external/steam/include")
-# else()
-#  message( "Invalid or unknown compiler toolchain for linking Steamworks" )
-# endif()
-
-# Link the appropriate Steam library for the target
-if( UNIX )
-  set(STEAM 
-  steamapi_linux)
-elseif( WIN32 )
-  set(STEAM 
-  steamapi)
-else()
-  message( "Invalid or unknown target for linking Steamworks" )
-endif()
-
 # Include StackWalker
 if(WIN32)
   include("${CMAKE_SOURCE_DIR}/external/StackWalker/CMakeLists.txt")
@@ -103,7 +72,6 @@ include_directories(SYSTEM
   external/gcc/libbacktrace/
   external/lua-5.3.5/src/
   external/freetype/include/
-  external/steam/include
   external/StackWalker/include
   .
 )
@@ -115,7 +83,6 @@ set(ALL_LIBS
   GLEW_1130
   openal
   freetype
-  ${STEAM}
 )
 
 if ( WIN32 )
@@ -157,7 +124,6 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSPDLOG_NO_EXCEPTIONS=ON")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_EXCEPTION_DISABLE")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_NO_EXCEPTIONS")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINCLUDE_STEAM")
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -D_GLIBCXX_DEBUG")
@@ -352,10 +318,6 @@ SET(ALL_FILES
   src/sound.cpp
   src/spline.cpp
 
-  src/steam/steamwrapper.cpp
-  src/steam/steamws.cpp
-  src/steam/steamws_core.cpp
-
   src/string.cpp
   src/string_proxy.cpp
   src/tanker.cpp
@@ -429,22 +391,6 @@ if(WIN32)
 endif()
 
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
-
-# Copy steam dll to build dir based on compiler toolchain
-# Commented out if statements so we copy both files every time
-# if (LP_IS_MINGW)
-  add_custom_command(
-    TARGET newcity PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/external/steam/redistributable_bin/linux64/libsteam_api.so
-            ${CMAKE_CURRENT_BINARY_DIR}/libsteam_api.so)
-# elseif (WIN32)
-  add_custom_command(
-    TARGET newcity PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/external/steam/redistributable_bin/win64/steam_api64.dll
-            ${CMAKE_CURRENT_BINARY_DIR}/steam_api64.dll)
-# endif()
 
 # Copy other redistributables
 #add_custom_command(
