@@ -7,7 +7,7 @@ char* versionStringUnderscored_ = 0;
 
 const char* versionString() {
   if (versionString_ == 0) {
-    versionString_ = sprintf_o("Version %d.%d.%d.%d%s ALPHA for %s (SoupPatch)",
+    versionString_ = sprintf_o("Version %d.%d.%d.%d%s ALPHA-SOUP for %s",
         majorVersion, minorVersion, saveVersion, patchVersion,
         patchLetter, platform);
   }
