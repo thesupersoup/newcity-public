@@ -12,6 +12,24 @@ struct ChangelogData {
 
 const ChangelogData changelogs[] = {
   ChangelogData(
+    "Version 0.0.58.19 ALPHA-SOUP",
+
+    "Removed Steam Workshop along with all other Steam related code and binaries. This is officially a FOSS project.\n \n"
+    "Disabled the rendering of neighboring city buildings. In the absence of a better solution, this provides an immediate and significant performance gain.\n \n"
+    "More sorting out the CMake file.\n \n"
+    "Added a package script for Windows to make all this more convenient.\n \n"
+  ),
+
+  ChangelogData(
+    "Version 0.0.58.18 ALPHA-SOUP",
+
+    "Got the game building on Windows again.\n \n"
+    "Started sorting out the CMake file.\n \n"
+    "Patched a few potential segfaults, including a high value one around the flagsfilenames array called by loadflagsimage.\n \n"
+    "Added a placeholder palette_flags file in /textures because I wanted to.\n \n"
+  ),
+
+  ChangelogData(
     "Version 0.0.58.17 ALPHA",
 
     "Fixed a bug where roads and subways would randomly get cut up and deleted.\n \n"
