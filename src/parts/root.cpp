@@ -13,7 +13,6 @@
 #include "../string_proxy.hpp"
 #include "../selection.hpp"
 #include "../serialize.hpp"
-#include "../steam/steamwrapper.hpp"
 #include "../tools/road.hpp"
 #include "../tutorial.hpp"
 #include "../util.hpp"
@@ -41,7 +40,6 @@
 #include "scrollbox.hpp"
 #include "selectionPanel.hpp"
 #include "statusBar.hpp"
-#include "steamWorkshop.hpp"
 #include "textBox.hpp"
 #include "toolbar.hpp"
 #include "tutorialPanel.hpp"
@@ -204,13 +202,6 @@ void setErrorMessage(char* message) {
   errorMessage = message;
 }
 
-bool steam_button_callback(Part* part, InputEvent event) {
-  #ifdef INCLUDE_STEAM
-    steam_openOverlay(STEAM_OVERLAY_ENUM::OFFICIALGAMEGROUP);
-  #endif
-  return true;
-}
-
 Part* root(float aspectRatio) {
   float uiX = uiGridSizeX * aspectRatio;
   if(menuMode == ErrorMode) {
@@ -298,34 +289,7 @@ Part* root(float aspectRatio) {
   } else if (menuMode == AboutPage) {
     r(container, aboutPanel(aspectRatio));
     return container;
-  } else if (menuMode == SteamWorkshop) {
-    r(container, steamWorkshop(aspectRatio));
-    return container;
   }
-
-  #ifdef INCLUDE_STEAM
-    // Even if Steam's included, only show buttons if it has an active connection
-    if (steam_isActive()) {
-      std::string wsTxt = "Steam Workshop";
-      float steamXPad = 0.5f;
-      float xPos = 1.0f;
-      float wsTxtLen = stringWidth(wsTxt.c_str());
-
-      // Container for buttons
-      Part* steamWSContainer = panel(vec2(xPos, uiGridSizeY-2.0f), vec2(1.0f+wsTxtLen, 1.0f));
-
-      // Steam button
-      Part* steam = button(vec2(0.0f, 0.0f), iconSteam,
-          steam_button_callback);
-      r(steamWSContainer, steam);
-
-      // Steam workshop button
-      Part* steamWS = button(vec2(1.0f+(steamXPad*2.0f), 0.0f), vec2(wsTxtLen-1.0f, 1.0f), strdup_s(wsTxt.c_str()), openSteamWorkshop);
-
-      r(steamWSContainer, steamWS);
-      r(container, steamWSContainer);
-    }
-  #endif
 
   if (!tutorial) {
     r(container, changelogPanel());

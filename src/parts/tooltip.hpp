@@ -198,7 +198,6 @@ enum TooltipType {
   DesignerConfigVisual,
   DesignerConfigGame,
   EditInDesigner,
-  DesignerOpenInWorkshop,
   DesignerFixBuilding,
 
   // Graphs

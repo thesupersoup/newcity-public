@@ -34,11 +34,6 @@
 
 #include "spdlog/spdlog.h"
 
-#ifdef INCLUDE_STEAM
-  #include "steam/steamwrapper.hpp"
-  #include "steam/steamws_core.hpp"
-#endif
-
 #ifdef WIN32
   #include <windows.h>
   extern "C"
@@ -182,16 +177,6 @@ void updateGameSync() {
   syncCondition.notify_one();
 }
 
-#ifdef INCLUDE_STEAM
-void steamLoop() {
-  while(shouldContinue && steam_isActive()) {
-    steam_tick();
-    steamws_tick();
-    sleepMilliseconds(steam_tickrate*1000); // 1000 milliseconds in a second
-  }
-}
-#endif
-
 void gameLoop() {
   initGame();
   //#ifdef __linux__
@@ -298,9 +283,6 @@ int mainLoop() {
   // quickDraw(); supersoup - Function is all commented out, so commenting out here
   setDefaultLandConfig();
   loadBuildingTextures();
-  #ifdef INCLUDE_STEAM
-    steamws_initWorkshop(); // Initializes Workshop folders and files
-  #endif
 
   nameThread("MAIN THREAD");
 
@@ -312,9 +294,6 @@ int mainLoop() {
     startThread("SOUND THREAD", soundLoop);
     startThread("HEATMAP THREAD", heatMapLoop);
     startThread("VEHICLE THREAD", vehicleLoop);
-    #ifdef INCLUDE_STEAM
-      startThread("STEAM THREAD", steamLoop);
-    #endif
     //startThread("LOG UPLOAD THREAD", sendLogFile);
 
     initRoutingThreads();
@@ -369,11 +348,6 @@ int mainLoop() {
   writeOptions();
   //resetAll();
 
-  #ifdef INCLUDE_STEAM
-    steamws_shutdown();
-    steam_shutdown();
-  #endif
-
   sleepMilliseconds(2000);
 
   while(isGameSaving()) {
@@ -411,11 +385,6 @@ int start() {
   initErrorHandling();
   readOptions();
   sendLogFile();
-
-  #ifdef INCLUDE_STEAM
-    steam_init();
-    steam_spdlogInfo();
-  #endif
 
   //try {
 

@@ -232,10 +232,6 @@ const std::vector<ConCmd> conCmds
     "Shuffle the currently playing song",
     conCallbackSongShuffle),
 
-  ConCmd("steaminfo",
-    "Prints Steam specific info, if Steam is initialized",
-    conCallbackSteamInfo),
-
   ConCmd("testfilewrite",
     "Writes a test file with the new file format to disk",
     conCallbackTestFileWrite,

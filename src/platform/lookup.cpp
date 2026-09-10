@@ -34,21 +34,10 @@ bool endsWith(std::string const &fullString, std::string const &ending) {
 
 vector<string> lookupFileCandidates(string filename, uint32_t flags) {
   vector<string> candidates;
-  bool ws = !(flags & _lookupExcludeWorkshop);
-  bool anyMod = (flags & _lookupForceMod) || (
-      isModsEnabled() && (
-       !(flags & _lookupExcludeBaseMods) ||
-       !(flags & _lookupExcludeWorkshopMods)));
-
-  if (!(flags & _lookupExcludeWorkshop)) {
-    candidates.push_back("workshop/" + filename);
-  }
+  bool anyMod = (flags & _lookupForceMod) || (isModsEnabled() && (!(flags & _lookupExcludeBaseMods)));
 
   if (anyMod) {
     string modFile = modDirectoryNonNull() + filename;
-    if (!(flags & _lookupExcludeWorkshopMods)) {
-      candidates.push_back("workshop/" + modFile);
-    }
     if (!(flags & _lookupExcludeBaseMods)) {
       candidates.push_back(modFile);
     }
@@ -158,7 +147,7 @@ string lookupSave(string filename) {
 
 vector<string> listModpacks(uint32_t flags) {
   return lookupSubDirectories("modpacks",
-      flags | _lookupExcludeBaseMods | _lookupExcludeWorkshopMods);
+      flags | _lookupExcludeBaseMods);
 }
 
 /// Returns all existing designs, including design packages and legacy designs,

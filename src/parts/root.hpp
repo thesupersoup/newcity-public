@@ -5,7 +5,7 @@
 
 enum MenuMode {
   HiddenMenu, MainMenu, NewGameMenu, SaveGameMenu, LoadGameMenu, SaveConfirm,
-  HideUI, ErrorMode, OptionsMenu, AboutPage, ModsMenu, SteamWorkshop, numMenuModes
+  HideUI, ErrorMode, OptionsMenu, AboutPage, ModsMenu, numMenuModes
 };
 
 enum SideBarMode {
