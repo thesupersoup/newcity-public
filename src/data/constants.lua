@@ -1,7 +1,10 @@
 ------------------------------
--- New Cities Configuration --
+-- NewCity Configuration --
 ------------------------------
--- Don't modify these values! Go to modpacks/yours/data/constants.lua instead.
+-- This file provides the Lua variables for NewCity.
+-- Don't modify these values without a backup!
+-- Best to leave the root file alone and make any changes to your modpacks/yours/data/constants.lua instead.
+-- You have been warned.
 
 -------------
 -- General --
