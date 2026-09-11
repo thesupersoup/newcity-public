@@ -11,6 +11,9 @@ callgrind.*
 # ignore local notes folder
 /notes
 
+# ignore asan dlls
+/src/clang_rt.asan*
+
 /steamworks-sdk/output
 /output/
 /sdk/
