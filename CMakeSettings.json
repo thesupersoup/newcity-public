@@ -14,6 +14,19 @@
       "ctestCommandArgs": ""
     },
     {
+      "name": "x86-DebugAsan",
+      "generator": "Ninja",
+      "configurationType": "DebugAsan",
+      "inheritEnvironments": [
+        "msvc_x86"
+      ],
+      "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": ""
+    },
+    {
       "name": "x86-Release",
       "generator": "Ninja",
       "configurationType": "Release",
@@ -41,6 +54,19 @@
     },
     {
       "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [
+        "msvc_x64"
+      ],
+      "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": ""
+    },
+    {
+      "name": "x64-DebugAsan",
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [
