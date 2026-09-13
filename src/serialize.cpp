@@ -269,7 +269,7 @@ FileBuffer readFromFile(const char* filename, bool winCompat) {
     if(!(ReadFile(fileHandle, uCharBuf, lSize, &bytesRead, NULL))) {
       handleError("Error with ReadFile %s (bytesRead:%s)", fn.c_str(), std::to_string((unsigned long)bytesRead));
       CloseHandle(fileHandle);
-      delete(uCharBuf);
+      delete[] uCharBuf;
       return buffer;
     }
 
@@ -282,7 +282,7 @@ FileBuffer readFromFile(const char* filename, bool winCompat) {
       // buffer.data[lSize-2] = 0;
     }
 
-    delete(uCharBuf);
+    delete[] uCharBuf;
     // Close file handle when we're done
     CloseHandle(fileHandle);
 
@@ -585,12 +585,14 @@ void fwrite_item_vector(FileBuffer* in, vector<item> *list) {
   }
 }
 
+// This function will empty the vector<item> before filling it
 void fread_item_vector(FileBuffer* in, vector<item> *result, int version) {
   int num = fread_int(in);
-  //if (num > 1000000 || num < 0) {
-    //handleError("Error reading from file");
-  //}
-  result->clear();
+
+  // This is a quick and dirty way to ensure we have a valid, empty
+  // vector<item> at this point
+  result->swap(vector<item>());
+
   result->reserve(num);
   for (int i = 0; i < num; i ++) {
     result->push_back(fread_item(in, version));
