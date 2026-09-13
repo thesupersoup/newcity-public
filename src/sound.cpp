@@ -422,7 +422,7 @@ void initSound() {
   nextSoundData.updateVolumes = true;
   songTimer = c(CSongDelay);
   if (!hasCompletedTutorial()) {
-    tryPlaySong(9, true); // Should be Tourist Trap.ogg
+    tryPlaySong(8, true); // Should be The Doozie
   }
   SPDLOG_INFO("Finished Initilazing Sound");
 }
