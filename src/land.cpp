@@ -388,7 +388,7 @@ void initEntities(RenderChunkIndex ndx) {
     chunk->landEntity = addEntity(LandShader);
     chunk->waterEntity = addEntity(WaterShader);
 
-    chunk->treeEntity.clear();
+    chunk->treeEntity.swap(vector<item>());
     for (int i = 0; i < sizeTreeTypes(); i++) {
       item entity = addEntity(TreeShader);
       chunk->treeEntity.push_back(entity);

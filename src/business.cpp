@@ -177,7 +177,7 @@ void rebuildPositions(item ndx) {
     employees[getEducationForPerson(pNdx)].push_back(pNdx);
   }
 
-  b->positions.clear();
+  b->positions.swap(vector<Position>());
 
   // Determine number of positions by education level
   int eduNum[numEducationLevels] = {0};
@@ -301,7 +301,7 @@ item addBusiness(item buildingNdx, BusinessType type) {
   item businessNdx = businesses->create();
   Business* business = getBusiness(businessNdx);
   business->flags = _businessExists;
-  business->positions.clear();
+  business->positions.swap(vector<Position>());
   business->building = buildingNdx;
   building->businesses.push_back(businessNdx);
 

@@ -245,9 +245,9 @@ item addStop(GraphLocation graphLoc) {
   stop->flags = _stopExists;
   stop->type = 0;
   stop->graphLoc = graphLoc;
-  stop->travelGroups.clear();
+  stop->travelGroups.swap(vector<item>());
   stop->numWaiting = 0;
-  stop->lines.clear();
+  stop->lines.swap(vector<item>());
 
   positionStop(ndx);
   nameStop(ndx);
@@ -267,7 +267,7 @@ void removeStop(item ndx) {
   for (int i = stop->lines.size() - 1; i >= 0; i--) {
     removeStopFromLine(stop->lines[i], ndx);
   }
-  stop->lines.clear();
+  stop->lines.swap(vector<item>());
 
   if (stopEntities.size() > ndx) {
     removeEntity(stopEntities[ndx]);
@@ -281,7 +281,7 @@ void removeStop(item ndx) {
 
   free(stop->name);
   stop->name = 0;
-  stop->travelGroups.clear();
+  stop->travelGroups.swap(vector<item>());
   stop->numWaiting = 0;
   stop->flags = 0;
   stops->free(ndx);
@@ -479,7 +479,7 @@ item nearestStop(Line ml) {
 void resetStops() {
   for (int i = 1; i < stops->size(); i++) {
     Stop* s = getStop(i);
-    s->lines.clear();
+    s->lines.swap(vector<item>());
   }
   stops->clear();
 

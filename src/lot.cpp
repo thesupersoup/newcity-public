@@ -749,9 +749,7 @@ void readLots(FileBuffer* file, int version) {
   if (version < 52) {
     int num = version <= 48 ? 5 : 9;
     for (int j = 0; j < num; j++) {
-      vector<item> temp;
-      fread_item_vector(file, &temp, version);
-      //fread_item_vector(file, &emptyLots[j], version);
+      fread_item_vector(file, &emptyLots[j], version);
     }
   }
 }

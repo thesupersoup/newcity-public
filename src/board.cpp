@@ -18,7 +18,7 @@ Cup<EconBoardSet> boardSets;
 void resetBoards() {
   for (int i = 0; i < boardSets.size(); i++) {
     for (int j = 0; j < numBoards; j++) {
-      boardSets.get(i)->boards[j].clear();
+        boardSets.get(i)->boards[j].swap(vector<item>());
     }
   }
   boardSets.clear();

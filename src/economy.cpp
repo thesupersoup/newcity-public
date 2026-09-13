@@ -464,7 +464,7 @@ item addEcon(EconType type, vec3 location, char* name, item parent) {
   for (int i = 0; i < numStatistics; i++) {
     TimeSeries* series = &(econ->statistics[i]);
     series->hasData = false;
-    series->values.clear();
+    series->values.swap(vector<float>());
     series->values.reserve(5000);
     series->startDate = 0;
     series->timeStep = defaultTimeStep;
@@ -483,7 +483,7 @@ void removeEcon(item ndx) {
   for (int i = 0; i < numStatistics; i++) {
     TimeSeries* series = &(econ->statistics[i]);
     series->hasData = false;
-    series->values.clear();
+    series->values.swap(vector<float>());
     series->values.reserve(5000);
     series->startDate = 0;
     series->timeStep = defaultTimeStep;
@@ -1214,7 +1214,7 @@ void resetStatistics() {
     for (int i = 0; i < numStatistics; i++) {
       TimeSeries* series = &econ->statistics[i];
       series->hasData = false;
-      series->values.clear();
+      series->values.swap(vector<float>());
       vector<float> empty;
       series->values.swap(empty);
       series->startDate = 0;
@@ -1293,16 +1293,22 @@ void readEcon(FileBuffer* file, item ndx, int numStats) {
       series->startDate = startDate;
       series->timeStep = timeStep;
       if (file->version < 54) series->timeStep = defaultTimeStep;
-      series->values.clear();
-      series->values.reserve(num*2);
+
+      vector<float> valuesFromFile;
+      bool hasData = false;
+
+      valuesFromFile.clear();
+      valuesFromFile.reserve(num+1);
+
       for (int j = 0; j < num; j++) {
         float val = fread_float(file);
-        series->values.push_back(val);
+        valuesFromFile.push_back(val);
         if (val != 0) {
-          series->hasData = true;
+          hasData = true;
         }
       }
 
+      series->values.swap(valuesFromFile);
     } else {
       for (int j = 0; j < num; j++) {
         fread_float(file);
@@ -1312,7 +1318,7 @@ void readEcon(FileBuffer* file, item ndx, int numStats) {
 
   for (int i = numStats; i < numStatistics; i++) {
     TimeSeries* series = &econ->statistics[i];
-    series->values.clear();
+    series->values.swap(vector<float>());
     series->hasData = false;
     series->startDate = getCurrentDateTime();
     series->timeStep = defaultTimeStep;

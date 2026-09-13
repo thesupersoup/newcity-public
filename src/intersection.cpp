@@ -339,8 +339,8 @@ void rebuildIntersection(item nodeNdx) {
   printIntersection("before cleanup", node, nodeNdx);
 
   //Cleanup
-  node->phaseMins.clear();
-  node->phaseMaxs.clear();
+  node->phaseMins.swap(vector<item>());
+  node->phaseMaxs.swap(vector<item>());
   for(int i = node->laneBlocks.size() - 1; i >= 0; i--) {
     removeLaneBlock(node->laneBlocks[i]);
   }
@@ -358,7 +358,7 @@ void rebuildIntersection(item nodeNdx) {
       }
     }
   }
-  node->laneBlocks.clear();
+  node->laneBlocks.swap(vector<item>());
 
   if (!(node->flags & _graphComplete)) return;
 

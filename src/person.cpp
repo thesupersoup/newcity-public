@@ -476,7 +476,7 @@ item addFamily(item econ, bool isTourists) {
   family->lastStoreTime = getCurrentDateTime();
   family->lastWorkTime = getCurrentDateTime();
   family->name = intern(randomName(FamilyName));
-  family->members.clear();
+  family->members.swap(vector<item>());
   family->econ = econ;
   econ = getFamilyEcon(familyNdx);
   char* specialName = 0;

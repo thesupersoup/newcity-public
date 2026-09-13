@@ -182,9 +182,9 @@ item addNode(vec3 center, Configuration config) {
   Node* node = getNode(ndx);
   node->center = center;
   node->edges.clear();
-  node->laneBlocks.clear();
-  node->phaseMins.clear();
-  node->phaseMaxs.clear();
+  node->laneBlocks.swap(vector<item>());
+  node->phaseMins.swap(vector<item>());
+  node->phaseMaxs.swap(vector<item>());
   node->entity = 0;
   node->signEntity = 0;
   node->tunnelEntity = 0;
@@ -1969,8 +1969,8 @@ void resetGraph() {
   for (int i = -1; i >= -nodes->size(); i--) {
     Node* node = getNode(i);
     node->edges.clear();
-    node->phaseMins.clear();
-    node->phaseMaxs.clear();
+    node->phaseMins.swap(vector<item>());
+    node->phaseMaxs.swap(vector<item>());
   }
 
   for (int i = 1; i <= edges->size(); i++) {

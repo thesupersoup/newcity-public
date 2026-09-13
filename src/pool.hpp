@@ -39,8 +39,8 @@ Pool<T>* Pool<T>::newPool(item expectedSize) {
   Pool<T>* pool = new Pool();
   pool->array.clear();
   pool->array.reserve(expectedSize);
-  pool->gaps.clear();
-  pool->settling.clear();
+  pool->gaps.swap(vector<item>());
+  pool->settling.swap(vector<item>());
   return pool;
 }
 
@@ -124,8 +124,8 @@ void Pool<T>::reserve(int amount) {
 template <typename T>
 void Pool<T>::clear() {
   this->array.clear();
-  this->gaps.clear();
-  this->settling.clear();
+  this->gaps.swap(vector<item>());
+  this->settling.swap(vector<item>());
 }
 
 template <typename T>

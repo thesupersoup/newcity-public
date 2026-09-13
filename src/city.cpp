@@ -112,7 +112,7 @@ item addCity(vec3 location, vec3 dir, item backNode) {
   City* city = getCity(cityIndex);
   city->flags = _cityExists;
   city->name = randomName(CityName);
-  city->buildings.clear();
+  city->buildings.swap(vector<item>());
 
   city->nodeCenter = vec3(0,0,0); //location;
   city->visualCenter = location; // + normalize(dir)*c(CCityDistance);

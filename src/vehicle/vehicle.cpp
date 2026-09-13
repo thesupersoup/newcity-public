@@ -341,7 +341,7 @@ item addVehicle_g(item ndx, item style, Route* route, item startLane) {
   vehicle->trailing = 0;
   vehicle->yieldTo = 0;
   vehicle->yieldFrom = 0;
-  vehicle->travelGroups.clear();
+  vehicle->travelGroups.swap(vector<item>());
 
   vehicle->pilot = getNextGraphLoc(route);
   if (startLane != 0) vehicle->pilot.lane = startLane;
@@ -491,7 +491,7 @@ item addWanderer_g(item modelNdx, vec3 loc, float yaw) {
   vehicle->trailing = 0;
   vehicle->yieldTo = 0;
   vehicle->yieldFrom = 0;
-  vehicle->travelGroups.clear();
+  vehicle->travelGroups.swap(vector<item>());
   vehicle->model = modelNdx;
   vehicle->pilot.lane = 1;
 
@@ -725,7 +725,7 @@ void resetVehicles() {
   vehicleRate = 0;
   for (int i = 1; i <= vehicles->size(); i ++) {
     Vehicle* v = getVehicle(i);
-    v->travelGroups.clear();
+    v->travelGroups.swap(vector<item>());
     clearRoute(&v->route);
   }
   vehicles->clear();
@@ -1093,7 +1093,7 @@ void vehiclePassengersToTravelGroups51_g() {
   for (int i = 1; i <= vehicles->size(); i++) {
     Vehicle* vehicle = getVehicle(i);
     vector<item> passengers = vehicle->travelGroups;
-    vehicle->travelGroups.clear();
+    vehicle->travelGroups.swap(vector<item>());
 
     item groupNdx = addTravelGroup_g();
     TravelGroup* group = getTravelGroup_g(groupNdx);
@@ -1122,7 +1122,7 @@ void readVehicles(FileBuffer* file, int version) {
   }
   SPDLOG_INFO("{} vehicles", vehicles->count());
 
-  vehicles->gaps.clear();
+  vehicles->gaps.swap(vector<item>());
   for (int i=1; i <= vehicles->size(); i++) {
     Vehicle* v = getVehicle(i);
     if (!(v->flags & _vehicleExists)) {
