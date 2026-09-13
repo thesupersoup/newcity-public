@@ -35,6 +35,7 @@ callgrind.*
 /src/newcity
 /src/newcity.exe
 /src/newcity.pdb
+/src/%newcity.pdb%
 /src/game_test.exe
 /src/binary_map
 /src/designs/autosave.design

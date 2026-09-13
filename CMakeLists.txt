@@ -419,6 +419,12 @@ if(WIN32)
     TARGET newcity POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/newcity.pdb" "${CMAKE_CURRENT_SOURCE_DIR}/src/"
   )
+
+  # Visual Studio 2022, oddly, can't see the .pdb unless it has this filename. I'm sure I'm doing something wrong, but...
+  add_custom_command(
+    TARGET newcity POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/newcity.pdb" "${CMAKE_CURRENT_SOURCE_DIR}/src/%%newcity.pdb%%"
+  )
 endif()
 
 elseif (${CMAKE_GENERATOR} MATCHES "Xcode" )
