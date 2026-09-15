@@ -73,6 +73,12 @@ void entityPrintDebugInfo(int32_t ndx) {
 
 void resetEntities() {
   for (int i = 1; i <= entities->size(); i++) {
+    Entity* e = getEntity(i);
+
+    if (e == NULL) {
+      continue;
+    }
+
     if (getEntity(i)->flags & _entityExists) {
       removeEntity(i);
     }
@@ -135,6 +141,10 @@ item addEntity(Shader shader) {
 void removeEntityAndMesh(item ndx) {
   if (ndx <= 0 || ndx > entitiesSize()) return;
   Entity* entity = getEntity(ndx);
+  if (entity == NULL) {
+    SPDLOG_ERROR("Null entity in removeEntityAndMesh");
+    return;
+  }
   if (entity->mesh > 0) {
     removeMesh(entity->mesh);
   }
@@ -147,7 +157,10 @@ void removeEntityAndMesh(item ndx) {
 void removeEntity(item ndx) {
   if (ndx <= 0 || ndx > entities->size()) return;
   Entity* entity = getEntity(ndx);
-  if (entity == 0) return;
+  if (entity == NULL) {
+    SPDLOG_ERROR("Null entity in removeEntity");
+    return;
+  }
   if (!(entity->flags & _entityExists)) {
     SPDLOG_ERROR("Double removeEntity");
     logStacktrace();
@@ -163,15 +176,35 @@ void removeEntity(item ndx) {
 }
 
 Entity* getEntity(item ndx) {
+  if (ndx == 0) {
+    return NULL;
+  }
+
   return entities->get(ndx);
 }
 
 Mesh* getMeshForEntity(item ndx) {
-  return getMesh(getEntity(ndx)->mesh);
+  if (ndx == 0) {
+    return NULL;
+  }
+
+  Entity* entity = getEntity(ndx);
+
+  if (entity == NULL) {
+    return NULL;
+  }
+
+  return getMesh(entity->mesh);
 }
 
 void createMeshForEntity(item entityNdx) {
   Entity* entity = getEntity(entityNdx);
+
+  if (entity == NULL) {
+    SPDLOG_ERROR("Null entity in createMeshForEntity");
+    return;
+  }
+
   int oldMesh = entity->mesh;
   if (entity->mesh <= 0) {
     entity->mesh = addMesh();
@@ -184,6 +217,12 @@ void createMeshForEntity(item entityNdx) {
 
 void createSimpleMeshForEntity(item entityNdx) {
   Entity* entity = getEntity(entityNdx);
+
+  if (entity == NULL) {
+    SPDLOG_ERROR("Null entity in createSimpleMeshForEntity");
+    return;
+  }
+
   int oldMesh = entity->simpleMesh;
   if (entity->simpleMesh <= 0) {
     entity->simpleMesh = addMesh();
@@ -196,6 +235,12 @@ void createSimpleMeshForEntity(item entityNdx) {
 
 void bufferMeshForEntity(item entityNdx) {
   Entity* e = getEntity(entityNdx);
+
+  if (e == NULL) {
+    SPDLOG_ERROR("Null entity in bufferMeshForEntity");
+    return;
+  }
+
   if (e->mesh != 0) {
     bufferMesh(e->mesh);
   }
@@ -228,6 +273,12 @@ void setEntityActive_g(item ndx) {
   }
 
   Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+    SPDLOG_ERROR("Null entity in setEntityActive_g");
+    return;
+  }
+
   bool active = (e->flags & _entityExists) &&
     (e->flags & _entityVisible) &&
     (e->mesh > 0 || e->simpleMesh > 0);
@@ -247,20 +298,36 @@ void setEntityCulled_g(item ndx, bool val) {
 
 void setEntityVisible(item ndx, bool visible) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+    SPDLOG_ERROR("Null entity in setEntityVisible");
+    return;
+  }
+
   if (visible) {
-    getEntity(ndx)->flags |= _entityVisible;
+    e->flags |= _entityVisible;
   } else {
-    getEntity(ndx)->flags &= ~_entityVisible;
+    e->flags &= ~_entityVisible;
   }
   setEntityActive_g(ndx);
 }
 
 void setEntityIlluminated(item ndx, bool illuminate) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityIlluminated");
+      return;
+  }
+
   if (illuminate) {
-    getEntity(ndx)->flags |= _entityIlluminate;
+    e->flags |= _entityIlluminate;
   } else {
-    getEntity(ndx)->flags &= ~_entityIlluminate;
+    e->flags &= ~_entityIlluminate;
   }
   markEntityDirty_g(ndx);
 }
@@ -268,6 +335,12 @@ void setEntityIlluminated(item ndx, bool illuminate) {
 void setEntityHighlight(item ndx, bool highlight) {
   if (ndx <= 0 || ndx > entitiesSize()) return;
   Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityHighlight");
+      return;
+  }
+
   bool was = e->flags & _entityHighlight;
   if (was == highlight) return;
 
@@ -281,50 +354,90 @@ void setEntityHighlight(item ndx, bool highlight) {
 
 void setEntityRedHighlight(item ndx, bool highlight) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityRedHighlight");
+      return;
+  }
+
   if (highlight) {
-    getEntity(ndx)->flags |= _entityRedHighlight;
+    e->flags |= _entityRedHighlight;
   } else {
-    getEntity(ndx)->flags &= ~_entityRedHighlight;
+    e->flags &= ~_entityRedHighlight;
   }
   markEntityDirty_g(ndx);
 }
 
 void setEntityBlueHighlight(item ndx, bool highlight) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityBlueHighlight");
+      return;
+  }
+
   if (highlight) {
-    getEntity(ndx)->flags |= _entityBlueHighlight;
+    e->flags |= _entityBlueHighlight;
   } else {
-    getEntity(ndx)->flags &= ~_entityBlueHighlight;
+    e->flags &= ~_entityBlueHighlight;
   }
   markEntityDirty_g(ndx);
 }
 
 void setEntityTransparent(item ndx, bool transparent) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityTransparent");
+      return;
+  }
+
   if (transparent) {
-    getEntity(ndx)->flags |= _entityTransparent;
+    e->flags |= _entityTransparent;
   } else {
-    getEntity(ndx)->flags &= ~_entityTransparent;
+    e->flags &= ~_entityTransparent;
   }
   markEntityDirty_g(ndx);
 }
 
 void setEntityDesaturate(item ndx, bool desaturate) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityDesaturate");
+      return;
+  }
+
   if (desaturate) {
-    getEntity(ndx)->flags |= _entityDesaturate;
+    e->flags |= _entityDesaturate;
   } else {
-    getEntity(ndx)->flags &= ~_entityDesaturate;
+    e->flags &= ~_entityDesaturate;
   }
   markEntityDirty_g(ndx);
 }
 
 void setEntityBringToFront(item ndx, bool raise) {
   if (ndx <= 0) return;
+
+  Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityBringToFront");
+      return;
+  }
+
   if (raise) {
-    getEntity(ndx)->flags |= _entityBringToFront;
+    e->flags |= _entityBringToFront;
   } else {
-    getEntity(ndx)->flags &= ~_entityBringToFront;
+    e->flags &= ~_entityBringToFront;
   }
   markEntityDirty_g(ndx);
 }
@@ -332,12 +445,23 @@ void setEntityBringToFront(item ndx, bool raise) {
 void setEntityRaise(item ndx, int amount) {
   if (ndx <= 0) return;
   Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+      SPDLOG_ERROR("Null entity in setEntityRaise");
+      return;
+  }
+
   e->flags &= ~_entityRaiseMask;
   e->flags |= (amount << _entityRaiseShift) & _entityRaiseMask;
   markEntityDirty_g(ndx);
 }
 
 item getEntityMesh(Entity* entity, Cull cull) {
+  if (entity == NULL) {
+    SPDLOG_ERROR("Null entity passed to getEntityMesh");
+    return 0;
+  }
+
   if(entity->shader >= RainShader || entity->shader == SkyboxShader) {
     return entity->mesh;
   }
@@ -390,6 +514,11 @@ item getEntityMesh(Entity* entity, Cull cull) {
 }
 
 item getEntityMeshOld(Entity* entity, Camera c) {
+  if (entity == NULL) {
+    SPDLOG_ERROR("Null entity passed to getEntityMeshOld");
+    return 0;
+  }
+
   //if (!(entity->flags & _entityExists)) return 0;
   //if (!(entity->flags & _entityVisible)) return 0;
   if (entity->mesh <= 0) return 0;
@@ -447,7 +576,19 @@ item getEntityMeshOld(Entity* entity, Camera c) {
 
 void copyEntityPlacement(item fromNdx, item toNdx) {
   Entity* from = getEntity(fromNdx);
+
+  if (from == NULL) {
+    SPDLOG_ERROR("from entity null in copyEntityPlacement");
+    return;
+  }
+
   Entity* to = getEntity(toNdx);
+
+  if (to == NULL) {
+    SPDLOG_ERROR("to entity null in copyEntityPlacement");
+    return;
+  }
+
   to->location = from->location;
   to->rotScale = from->rotScale;
   memcpy_s(to->matrix, from->matrix, 16*sizeof(float));
@@ -455,7 +596,18 @@ void copyEntityPlacement(item fromNdx, item toNdx) {
 }
 
 void placeEntity(item ndx, vec3 location, float yaw, float pitch, float scal) {
+  if (ndx <= 0) {
+    SPDLOG_ERROR("ndx <= 0 passed to placeEntity");
+    return;
+  }
+  
   Entity* entity = getEntity(ndx);
+
+  if (entity == NULL) {
+    SPDLOG_ERROR("entity null in placeEntity");
+    return;
+  }
+
   entity->location = location;
   entity->rotScale = vec3(yaw, pitch, scal);
 
@@ -507,7 +659,18 @@ void placeEntity(item ndx, vec3 location, float yaw, float pitch) {
 }
 
 void setEntityClip(item ndx, Line cl) {
+  if (ndx <= 0) {
+    SPDLOG_ERROR("ndx <= 0 passed to setEntityClip");
+    return;
+  }
+
   Entity* entity = getEntity(ndx);
+
+  if (entity == NULL) {
+    SPDLOG_ERROR("entity null in setEntityClip");
+    return;
+  }
+
   for (int i = 0; i < 16; i++) {
     entity->matrix[i] = 0;
   }
@@ -520,7 +683,18 @@ void setEntityClip(item ndx, Line cl) {
 }
 
 void setCull(item ndx, float entitySize, float maxDist) {
+  if (ndx <= 0) {
+    SPDLOG_ERROR("ndx <= 0 passed to setCull");
+    return;
+  }
+
   Entity* entity = getEntity(ndx);
+
+  if (entity == NULL) {
+    SPDLOG_ERROR("entity null in setCull");
+    return;
+  }
+
   entity->entitySize = entitySize;
   entity->maxCameraDistance = maxDist;
   markEntityDirty_g(ndx);

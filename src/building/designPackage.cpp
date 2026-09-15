@@ -135,6 +135,12 @@ void deleteTextureInPackage(item designNdx, item texture) {
 void assignBuildingTexture(item buildingNdx) {
   Building* b = getBuilding(buildingNdx);
   Entity* e = getEntity(b->entity);
+
+  if (e == NULL) {
+    SPDLOG_ERROR("null entity in assignBuildingTexture");
+    return;
+  }
+
   if (designPackages.size() > b->design) {
     DesignPackage* package = designPackages.get(b->design);
 

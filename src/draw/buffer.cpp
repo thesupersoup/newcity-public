@@ -159,6 +159,11 @@ DrawCommand* getDrawCommand(DrawBuffer* b, Shader s, item entity,
 
 inline void collectEntity(item ndx, Cull cull, DrawBuffer* b) {
   Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+    return;
+  }
+
   Shader s = e->shader;
 
   #ifdef COUNT_ENTITIES

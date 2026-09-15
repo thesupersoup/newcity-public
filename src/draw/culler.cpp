@@ -97,6 +97,11 @@ void updateEntityInCuller_g(item ndx) {
   }
 
   Entity* e = getEntity(ndx);
+
+  if (e == NULL) {
+    return;
+  }
+
   eFlags.set(ndx, e->flags);
   eDataFlags.set(ndx, e->dataFlags);
   eShader.set(ndx, e->shader);

@@ -85,6 +85,10 @@ void removeMesh(item ndx) {
 }
 
 Mesh* getMesh(item ndx) {
+  if (ndx == 0) {
+    return NULL;
+  }
+
   return meshes->get(ndx);
 }
 

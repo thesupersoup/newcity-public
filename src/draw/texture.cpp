@@ -156,6 +156,10 @@ void refillTextureIDPool() {
 }
 
 Texture* getTexture(int ndx) {
+  if (ndx == 0) {
+    return NULL;
+  }
+
   return textures->get(ndx);
 }
 
