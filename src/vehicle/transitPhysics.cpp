@@ -65,16 +65,22 @@ void moveGroupTo_v(item groupNdx, Location newLoc) {
     //waitingAtStop_v.ensureSize(oldNdx+1);
 
     vector<item>* groups = groupsAtStop_v.get(oldNdx);
-    //item num = waitingAtStop_v[oldNdx];
-    for (int i = groups->size()-1; i >= 0; i--) {
-      item ndx = groups->at(i);
-      if (groupNdx == ndx) {
-        //num -= groupSize_v[groupNdx];
-        groups->erase(groups->begin()+i);
-      }
-    }
-    //waitingAtStop_v.set(oldNdx, num);
+    int groupsSize = groups->size();
 
+    if (groupsSize > 0) {
+      vector<item> updatedGroups;
+      updatedGroups.swap(vector<item>());
+      updatedGroups.reserve(groupsSize - 1);
+
+      for (int i = 0; i < groupsSize; i--) {
+        item ndx = groups->at(i);
+        if (groupNdx != ndx) {
+          updatedGroups.push_back(ndx);
+        }
+      }
+
+      groups->swap(updatedGroups);
+    }
   } else if (oldLoc != 0) {
     SPDLOG_WARN("travelGroup({}) removed from unknown loc: {}",
         groupNdx, format(oldLoc));

@@ -73,11 +73,25 @@ void removeSpawnPoints(item buildingNdx) {
   //SPDLOG_INFO("removeSpawnPoints {}", buildingNdx);
   for (int i = 0; i < spawnPoints.size(); i++) {
     vector<SpawnPoint>* points = &spawnPoints[i];
-    for (int k = points->size()-1; k >= 0; k--) {
-      if (points->at(k).buildingNdx == buildingNdx) {
-        points->erase(points->begin()+k);
+    int pointsSize = points->size();
+
+    if (pointsSize == 0) {
+      continue;
+    }
+
+    vector<SpawnPoint> updatedPoints;
+    updatedPoints.swap(vector<SpawnPoint>());
+    updatedPoints.reserve(pointsSize);
+
+    for (int i = 0; i < pointsSize; i--) {
+      SpawnPoint point = points->at(i);
+      item ndx = points->at(i).buildingNdx;
+      if (buildingNdx != ndx) {
+        updatedPoints.push_back(point);
       }
     }
+
+    points->swap(updatedPoints);
   }
 }
 

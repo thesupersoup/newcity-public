@@ -31,13 +31,26 @@ Board* getBoard(item econ, item boardNdx) {
 
 item boardTake(item econ, item boardNdx) {
   vector<item>* board = getBoard(econ, boardNdx);
-  if (board->size() == 0) {
+  int size = board->size();
+
+  if (size == 0) {
     return 0;
   }
 
-  item i = randItem(board->size());
+  item i = randItem(size);
   item result = board->at(i);
-  board->erase(board->begin()+i);
+
+  vector<item> updatedBoard;
+  updatedBoard.swap(vector<item>());
+  updatedBoard.reserve(size - 1);
+
+  for (int ndx = 0; ndx < size; ndx++) {
+      if (ndx != i) {
+          updatedBoard.push_back(board->at(ndx));
+      }
+  }
+
+  board->swap(updatedBoard);
   return result;
 }
 
@@ -72,11 +85,23 @@ int boardSize(item econ, item boardNdx) {
 
 void boardClean(item econ, item boardNdx, item ndx) {
   vector<item>* board = getBoard(econ, boardNdx);
-  for (int i=board->size()-1; i >= 0; i--) {
-    if(board->at(i) == ndx) {
-      board->erase(board->begin()+i);
-    }
+  int size = board->size();
+
+  if (size <= 0) {
+    return;
   }
+
+  vector<item> updatedBoard;
+  updatedBoard.swap(vector<item>());
+  updatedBoard.reserve(size - 1);
+
+  for (int i = 0; i < size; i++) {
+      if (i != ndx) {
+          updatedBoard.push_back(board->at(i));
+      }
+  }
+
+  board->swap(updatedBoard);
 }
 
 void writeBoards(FileBuffer* file) {

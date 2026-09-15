@@ -102,11 +102,22 @@ void removeLotFromEmptyLots(item lotNdx) {
   Lot* lot = getLot(lotNdx);
   vector<item> *table = &emptyLots[lot->zone];
   int size = table->size();
-  for (int i=size-1; i >= 0; i--) {
-    if (table->at(i) == lotNdx) {
-      table->erase(table->begin()+i);
-    }
+
+  if (size <= 0) {
+      return;
   }
+
+  vector<item> updatedTable;
+  updatedTable.swap(vector<item>());
+  updatedTable.reserve(size - 1);
+
+  for (int i = 0; i < size; i++) {
+      if (i != lotNdx) {
+          updatedTable.push_back(table->at(i));
+      }
+  }
+
+  table->swap(updatedTable);
 }
 
 void removeLot(item lotNdx) {
@@ -154,14 +165,6 @@ void zoneLot(item lotNdx, item zone, bool overzone) {
 
     if (lot->zone != 0) {
       removeLotFromEmptyLots(lotNdx);
-      /*
-      vector<item> *table = &emptyLots[lot->zone];
-      for (int i=0; i < table->size(); i++) {
-        if (table->at(i) == lotNdx) {
-          table->erase(table->begin()+i);
-        }
-      }
-      */
     }
 
     if (lot->zone == 0 && zone != 0) {
@@ -412,7 +415,6 @@ item getEmptyLot(item zone) {
   }
   int ndx = randItem(size);
   item result = table->at(ndx);
-  //table->erase(table->begin() + ndx);
   return result;
 }
 

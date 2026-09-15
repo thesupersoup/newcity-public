@@ -14,12 +14,28 @@ item iclamp(item a, item b, item c) {
 
 bool removeFromVector(vector<item>* v, item n) {
   bool found = false;
-  for (int i = v->size()-1; i >= 0; i--) {
-    if (v->at(i) == n) {
-      v->erase(v->begin()+i);
-      found = true;
-    }
+  int size = v->size();
+
+  if (size == 0) {
+    return false; // Nothing to remove
   }
+
+  vector<item> updatedVec;
+  updatedVec.swap(vector<item>());
+  updatedVec.reserve(size - 1);
+
+  for (int i = 0; i < size; i++) {
+      if (i != n) {
+          updatedVec.push_back(v->at(i));
+      } else {
+        found = true;
+      }
+  }
+
+  if (found) {
+    v->swap(updatedVec);
+  }
+
   return found;
 }
 
@@ -531,20 +547,6 @@ item randInSet(set<item>* s, item num) {
   auto it = std::begin(*s);
   std::advance(it, ndx); //NOTE: O(n)
   return *it;
-
-  /*
-  item ndx = rand()%num;
-  pair<std::set<item>::iterator, bool> result = s->insert(ndx);
-  item first = *(result.first);
-  //SPDLOG_INFO("randInSet");//, result.second, size);
-  if (result.second) {
-    item res = *(result.first++);
-    s->erase(ndx);
-    return res;
-  } else {
-    return *(result.first);
-  }
-  */
 }
 
 const float mf = INT_MAX;
