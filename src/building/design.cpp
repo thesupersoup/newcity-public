@@ -175,8 +175,8 @@ item addDesign() {
   design->simpleMesh = 0;
   design->decoMesh = 0;
   design->simpleDecoMesh = 0;
-  design->structures.swap(vector<Structure>());
-  design->decos.swap(vector<Deco>());
+  vector<Structure>().swap(design->structures);
+  vector<Deco>().swap(design->decos);
   return ndx;
 }
 
@@ -851,7 +851,7 @@ bool readDesign(FileBuffer* file, int version, Design* design,
     handleError("Corrupt design %s - %s", design->name, name);
     return false;
   }
-  design->structures.swap(vector<Structure>());
+  vector<Structure>().swap(design->structures);
   design->structures.resize(structures);
   for (int i = 0; i < structures; i++) {
     Structure* s = &design->structures[i];
@@ -881,7 +881,7 @@ bool readDesign(FileBuffer* file, int version, Design* design,
     handleError("Corrupt design");
     return false;
   }
-  design->decos.swap(vector<Deco>());
+  vector<Deco>().swap(design->decos);
   design->decos.resize(decos);
 
   for (int i = 0; i < decos; i++) {
@@ -1003,11 +1003,11 @@ void copyDesign(Design* dest, Design* source, bool copyStrings) {
   dest->lowTide = source->lowTide;
   dest->highTide = source->highTide;
 
-  dest->structures.swap(vector<Structure>());
+  vector<Structure>().swap(dest->structures);
   for (int i = 0; i < source->structures.size(); i ++) {
     dest->structures.push_back(source->structures[i]);
   }
-  dest->decos.swap(vector<Deco>());
+  vector<Deco>().swap(dest->decos);
   for (int i = 0; i < source->decos.size(); i ++) {
     dest->decos.push_back(source->decos[i]);
   }

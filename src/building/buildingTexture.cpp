@@ -70,22 +70,22 @@ void resetBuildingTextures() {
     for (int j = 0; j < tex->designName.size(); j++) {
       if (tex->designName[j] != 0) free(tex->designName[j]);
     }
-    tex->designName.swap(vector<char*>());
+    vector<char*>().swap(tex->designName);
 
     vector<item> swap;
     tex->illumTextures.swap(swap);
   }
 
   for (int i = 0; i < numZoneTypes; i++) {
-    buildingTexTable[i].swap(vector<item>());
+    vector<item>().swap(buildingTexTable[i]);
   }
 
   hasUniDesigns = false;
   buildingTextures.clear();
-  buildingsToPaint.swap(vector<item>());
+  vector<item>().swap(buildingsToPaint);
   illumGroups.clear();
   normalGroups.clear();
-  matchingTextures.swap(vector<vector<item>>());
+  vector<vector<item>>().swap(matchingTextures);
   lightLevel = 2;
 }
 
@@ -94,8 +94,8 @@ item numBuildingTextures() {
 }
 
 void softResetBuildingTextures() {
-  buildingsToPaint.swap(vector<item>());
-  matchingTextures.swap(vector<vector<item>>());
+  vector<item>().swap(buildingsToPaint);
+  vector<vector<item>>().swap(matchingTextures);
   lightLevel = 2;
 }
 
@@ -240,8 +240,8 @@ void loadBuildingTextures() {
   // Assign everything to albedos
   for (int i = 1; i < buildingTextures.size(); i++) {
     BuildingTexture* tex = buildingTextures.get(i);
-    tex->illumTextures.swap(vector<item>());
-    tex->illumTextureID.swap(vector<item>());
+    vector<item>().swap(tex->illumTextures);
+    vector<item>().swap(tex->illumTextureID);
     if (tex->type != BTexAlbedo) continue;
 
     if (tex->illumGroup != 0) {

@@ -18,7 +18,7 @@ Cup<EconBoardSet> boardSets;
 void resetBoards() {
   for (int i = 0; i < boardSets.size(); i++) {
     for (int j = 0; j < numBoards; j++) {
-        boardSets.get(i)->boards[j].swap(vector<item>());
+        vector<item>().swap(boardSets.get(i)->boards[j]);
     }
   }
   boardSets.clear();
@@ -41,7 +41,7 @@ item boardTake(item econ, item boardNdx) {
   item result = board->at(i);
 
   vector<item> updatedBoard;
-  updatedBoard.swap(vector<item>());
+  vector<item>().swap(updatedBoard);
   updatedBoard.reserve(size - 1);
 
   for (int ndx = 0; ndx < size; ndx++) {
@@ -92,7 +92,7 @@ void boardClean(item econ, item boardNdx, item ndx) {
   }
 
   vector<item> updatedBoard;
-  updatedBoard.swap(vector<item>());
+  vector<item>().swap(updatedBoard);
   updatedBoard.reserve(size - 1);
 
   for (int i = 0; i < size; i++) {

@@ -69,7 +69,7 @@ void moveGroupTo_v(item groupNdx, Location newLoc) {
 
     if (groupsSize > 0) {
       vector<item> updatedGroups;
-      updatedGroups.swap(vector<item>());
+      vector<item>().swap(updatedGroups);
       updatedGroups.reserve(groupsSize - 1);
 
       for (int i = 0; i < groupsSize; i--) {

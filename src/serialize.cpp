@@ -591,7 +591,7 @@ void fread_item_vector(FileBuffer* in, vector<item> *result, int version) {
 
   // This is a quick and dirty way to ensure we have a valid, empty
   // vector<item> at this point
-  result->swap(vector<item>());
+  vector<item>().swap(*result);
 
   result->reserve(num);
   for (int i = 0; i < num; i ++) {

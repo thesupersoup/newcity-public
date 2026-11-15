@@ -289,7 +289,7 @@ item addTransitSystem() {
   system->transferPrice = c(CDefaultTransferPrice);
   system->designDate = getCurrentDateTime();
   system->name = strdup_s("New Transit System");
-  system->features.swap(vector<item>());
+  vector<item>().swap(system->features);
   return ndx;
 }
 
@@ -337,7 +337,7 @@ void selectTransitBid(item systemNdx, item bidNdx) {
     free(system->bids[i].firmName);
   }
 
-  system->bids.swap(vector<TransitSystemBid>());
+  vector<TransitSystemBid>().swap(system->bids);
   system->bids.push_back(bid);
 }
 
@@ -366,8 +366,8 @@ void removeTransitSystem(item ndx) {
   free(system->name);
   system->name = 0;
   system->flags = 0;
-  system->features.swap(vector<item>());
-  system->bids.swap(vector<TransitSystemBid>());
+  vector<item>().swap(system->features);
+  vector<TransitSystemBid>().swap(system->bids);
   transitSystems->free(ndx);
 }
 

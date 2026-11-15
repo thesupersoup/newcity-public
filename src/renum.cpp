@@ -9,9 +9,9 @@ void renumClear(RenumTable* table) {
   for (int i = 0; i < entrieS; i++) {
     free(table->entries[i].code);
   }
-  table->entries.swap(vector<Renum>());
+  vector<Renum>().swap(table->entries);
   table->byCode.clear();
-  table->fromFileValue.swap(vector<item>());
+  vector<item>().swap(table->fromFileValue);
 }
 
 void pushRenum(RenumTable* table, item val, const char* code) {
@@ -36,7 +36,7 @@ item renum(RenumTable* table, item fromFile) {
 }
 
 void renumLegacyStart(RenumTable* table) {
-  table->fromFileValue.swap(vector<item>());
+  vector<item>().swap(table->fromFileValue);
 }
 
 void renumLegacy(RenumTable* table, const char* code) {
@@ -45,7 +45,7 @@ void renumLegacy(RenumTable* table, const char* code) {
 }
 
 void renumRead(RenumTable* table, FileBuffer* file) {
-  table->fromFileValue.swap(vector<item>());
+  vector<item>().swap(table->fromFileValue);
   int entrieS = fread_item(file, file->version);
   for (int i = 0; i < entrieS; i++) {
     char* code = fread_string(file);

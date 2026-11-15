@@ -464,7 +464,7 @@ item addEcon(EconType type, vec3 location, char* name, item parent) {
   for (int i = 0; i < numStatistics; i++) {
     TimeSeries* series = &(econ->statistics[i]);
     series->hasData = false;
-    series->values.swap(vector<float>());
+    vector<float>().swap(series->values);
     series->values.reserve(5000);
     series->startDate = 0;
     series->timeStep = defaultTimeStep;
@@ -483,7 +483,7 @@ void removeEcon(item ndx) {
   for (int i = 0; i < numStatistics; i++) {
     TimeSeries* series = &(econ->statistics[i]);
     series->hasData = false;
-    series->values.swap(vector<float>());
+    vector<float>().swap(series->values);
     series->values.reserve(5000);
     series->startDate = 0;
     series->timeStep = defaultTimeStep;
@@ -1214,7 +1214,7 @@ void resetStatistics() {
     for (int i = 0; i < numStatistics; i++) {
       TimeSeries* series = &econ->statistics[i];
       series->hasData = false;
-      series->values.swap(vector<float>());
+      vector<float>().swap(series->values);
       vector<float> empty;
       series->values.swap(empty);
       series->startDate = 0;
@@ -1318,7 +1318,7 @@ void readEcon(FileBuffer* file, item ndx, int numStats) {
 
   for (int i = numStats; i < numStatistics; i++) {
     TimeSeries* series = &econ->statistics[i];
-    series->values.swap(vector<float>());
+    vector<float>().swap(series->values);
     series->hasData = false;
     series->startDate = getCurrentDateTime();
     series->timeStep = defaultTimeStep;

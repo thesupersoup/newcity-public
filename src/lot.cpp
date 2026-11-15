@@ -108,7 +108,7 @@ void removeLotFromEmptyLots(item lotNdx) {
   }
 
   vector<item> updatedTable;
-  updatedTable.swap(vector<item>());
+  vector<item>().swap(updatedTable);
   updatedTable.reserve(size - 1);
 
   for (int i = 0; i < size; i++) {

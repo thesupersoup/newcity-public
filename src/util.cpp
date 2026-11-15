@@ -21,7 +21,7 @@ bool removeFromVector(vector<item>* v, item n) {
   }
 
   vector<item> updatedVec;
-  updatedVec.swap(vector<item>());
+  vector<item>().swap(updatedVec);
   updatedVec.reserve(size - 1);
 
   for (int i = 0; i < size; i++) {

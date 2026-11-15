@@ -80,7 +80,7 @@ void removeSpawnPoints(item buildingNdx) {
     }
 
     vector<SpawnPoint> updatedPoints;
-    updatedPoints.swap(vector<SpawnPoint>());
+    vector<SpawnPoint>().swap(updatedPoints);
     updatedPoints.reserve(pointsSize);
 
     for (int i = 0; i < pointsSize; i--) {

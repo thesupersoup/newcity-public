@@ -34,8 +34,8 @@ void clearRequest(RouteRequest* req) {
   req->dest = 0;
   req->element = 0;
   req->sourceLoc = req->destLoc = vec3(0,0,0);
-  req->subRequests.swap(vector<item>());
-  req->steps.swap(vector<Location>());
+  vector<item>().swap(req->subRequests);
+  vector<Location>().swap(req->steps);
   vector<item> swap1;
   req->subRequests.swap(swap1);
   vector<Location> swap2;
@@ -119,14 +119,14 @@ void finishRoute_g(item reqNdx) {
       }
 
       if (bestReq != 0) {
-        req->steps.swap(vector<Location>());
+        vector<Location>().swap(req->steps);
         req->steps.insert(req->steps.end(),
             bestReq->steps.begin(), bestReq->steps.end());
       }
 
     } else {
       // Concatenate subRequests
-      req->steps.swap(vector<Location>());
+      vector<Location>().swap(req->steps);
       for (int i = 0; i < numSubs; i++) {
         item subReqNdx = req->subRequests[i];
         RouteRequest* subReq = requests_g.get(subReqNdx);
@@ -149,7 +149,7 @@ void finishRoute_g(item reqNdx) {
       item subReqNdx = req->subRequests[i];
       freeRequest(subReqNdx);
     }
-    req->subRequests.swap(vector<item>());
+    vector<item>().swap(req->subRequests);
   }
 
   if (req->type == RouteForMeta) {
@@ -174,7 +174,7 @@ void finishOneRoute_g(RouteRequest result) {
   if (result.ndx <= 0 || result.ndx > requests_g.size()) return;
   RouteRequest* request = requests_g.get(result.ndx);
 
-  request->steps.swap(vector<Location>());
+  vector<Location>().swap(request->steps);
   request->steps.insert(request->steps.end(),
       result.steps.begin(), result.steps.end());
   request->flags |= _routeCompleted;

@@ -325,10 +325,10 @@ item addBuilding(int flags, vec3 bLoc, vec3 normal, item design, item zone,
   Building* building = getBuilding(ndx);
 
   building->flags = _buildingExists | flags;
-  building->businesses.swap(vector<item>());
-  building->families.swap(vector<item>());;
-  building->peopleInside.swap(vector<item>());
-  building->lots.swap(vector<item>());
+  vector<item>().swap(building->businesses);
+  vector<item>().swap(building->families);
+  vector<item>().swap(building->peopleInside);
+  vector<item>().swap(building->lots);
   building->color = randItem(numBuildingColors);
 
   if (isDesignAquatic(design)) bLoc.z = c(CAquaticBuildingHeight);
@@ -832,7 +832,7 @@ void removeBuilding(item ndx) {
   for (int i = building->lots.size()-1; i >= 0; i--) {
     unoccupyLot(building->lots[i]);
   }
-  building->lots.swap(vector<item>());
+  vector<item>().swap(building->lots);
 
   removeEntity(building->entity);
   removeEntity(building->decoEntity);
@@ -1446,9 +1446,9 @@ void resetBuildings() {
 
   for (int i = 1; i <= buildings->size(); i++) {
     Building* building = getBuilding(i);
-    building->families.swap(vector<item>());
-    building->businesses.swap(vector<item>());
-    building->peopleInside.swap(vector<item>());
+    vector<item>().swap(building->families);
+    vector<item>().swap(building->businesses);
+    vector<item>().swap(building->peopleInside);
     building->value = 0;
     free(building->name);
     building->name = 0;

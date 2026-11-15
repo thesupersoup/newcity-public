@@ -122,8 +122,8 @@ void clearBlueprint(Blueprint* bp) {
   }
   bp->name = strdup_s("New Blueprint");
   bp->flags = _blueprintFine;
-  bp->edges.swap(vector<BlueprintEdge>());
-  bp->nodes.swap(vector<BlueprintNode>());
+  vector<BlueprintEdge>().swap(bp->edges);
+  vector<BlueprintNode>().swap(bp->nodes);
 }
 
 void clearDraftBlueprint() {
