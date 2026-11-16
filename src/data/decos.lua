@@ -1333,16 +1333,16 @@ addBuildingDecoration({
   code = "DecoModelHouse6Sand",
   name = "Model House 6 - Sand",
   group = "DecoGrpStructure",
-  mesh = "models/decorations/model-house-6-sand.obj",
-  simpleMesh = "models/decorations/model-house-6-sand-simple.obj",
+  mesh = "models/decorations/model-house-6.obj",
+  simpleMesh = "models/decorations/model-house-6-simple.obj",
 })
 
 addBuildingDecoration({
   code = "DecoModelHouse6Gray",
   name = "Model House 6 - Gray",
   group = "DecoGrpStructure",
-  mesh = "models/decorations/model-house-6-gray.obj",
-  simpleMesh = "models/decorations/model-house-6-gray-simple.obj",
+  mesh = "models/decorations/model-house-6.obj",
+  simpleMesh = "models/decorations/model-house-6-simple.obj",
 })
 
 addBuildingDecoration({
@@ -5394,7 +5394,7 @@ addBuildingDecoration({
   name = "Truck",
   group = "DecoGrpVehicles",
   mesh = "models/decorations/truck1.obj",
-  simpleMesh = "models/decorations/truck1-simple.obj",
+  simpleMesh = "models/decorations/truck1.obj",
 })
 
 addBuildingDecoration({
@@ -5402,7 +5402,7 @@ addBuildingDecoration({
   name = "Truck 2",
   group = "DecoGrpVehicles",
   mesh = "models/decorations/truck2.obj",
-  simpleMesh = "models/decorations/truck1-simple.obj",
+  simpleMesh = "models/decorations/truck2.obj",
 })
 
 addBuildingDecoration({
@@ -5410,7 +5410,7 @@ addBuildingDecoration({
   name = "Truck 3",
   group = "DecoGrpVehicles",
   mesh = "models/decorations/truck3.obj",
-  simpleMesh = "models/decorations/truck1-simple.obj",
+  simpleMesh = "models/decorations/truck3.obj",
 })
 
 addBuildingDecoration({
@@ -5418,7 +5418,7 @@ addBuildingDecoration({
   name = "Truck 4",
   group = "DecoGrpVehicles",
   mesh = "models/decorations/truck4.obj",
-  simpleMesh = "models/decorations/truck1-simple.obj",
+  simpleMesh = "models/decorations/truck4.obj",
 })
 
 addBuildingDecoration({
@@ -7103,8 +7103,8 @@ addBuildingDecoration({
   code = "DecoBuildingResidentialArtDeco01",
   name = "Art Deco Residential Building 01",
   group = "DecoGrpBuilding",
-  mesh = "models/decorations/artdeco01.obj",
-  simpleMesh = "models/decorations/artdeco01.obj",
+  mesh = "models/decorations/artdeco02.obj",
+  simpleMesh = "models/decorations/artdeco02.obj",
   texture = "building",
 })
 
