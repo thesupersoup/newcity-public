@@ -837,7 +837,7 @@ addBuildingDecoration({
   name = "Traditional Stair Blue",
   group = "DecoGrpStructure",
   mesh = "models/decorations/traditional-stair-blue.obj",
-  simpleMesh = "models/decorations/tradtional-stair-blue-simple.obj",
+  simpleMesh = "models/decorations/traditional-stair-blue-simple.obj",
 })
 
 addBuildingDecoration({
@@ -845,7 +845,7 @@ addBuildingDecoration({
   name = "Traditional Stair Blue2",
   group = "DecoGrpStructure",
   mesh = "models/decorations/traditional-stair-blue2.obj",
-  simpleMesh = "models/decorations/tradtional-stair-blue-simple.obj",
+  simpleMesh = "models/decorations/traditional-stair-blue-simple.obj",
 })
 
 addBuildingDecoration({
@@ -1045,7 +1045,7 @@ addBuildingDecoration({
   name = "Model House 3 - White and Blue",
   group = "DecoGrpStructure",
   mesh = "models/decorations/model-house-3-white-blue.obj",
-  simpleMesh = "models/decorations/model-house-3-white-blue-simple.obj",
+  simpleMesh = "models/decorations/model-house-3-simple.obj",
 })
 
 addBuildingDecoration({
@@ -1061,7 +1061,7 @@ addBuildingDecoration({
   name = "Model House 3 - Red and Brown",
   group = "DecoGrpStructure",
   mesh = "models/decorations/model-house-3-red-brown.obj",
-  simpleMesh = "models/decorations/model-house-3-red-brown-simple.obj",
+  simpleMesh = "models/decorations/model-house-3-simple.obj",
 })
 
 addBuildingDecoration({
@@ -1254,7 +1254,7 @@ addBuildingDecoration({
   name = "Model House 5 - Blue and Brick",
   group = "DecoGrpStructure",
   mesh = "models/decorations/model-house-5-blue-brick.obj",
-  simpleMesh = "models/decorations/model-house-5-blue-brick-simple.obj",
+  simpleMesh = "models/decorations/model-house-5-simple.obj",
 })
 
 addBuildingDecoration({
